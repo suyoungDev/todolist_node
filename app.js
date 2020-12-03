@@ -14,6 +14,7 @@ app.get('/', (req, res) => {
     res.send('<h1>its weekend!</h1>');
   } else {
     res.sendFile(__dirname + '/index.html');
+    // 수정확인
   }
 })
 
