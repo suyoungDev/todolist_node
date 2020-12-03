@@ -3,19 +3,48 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
+app.set('view engine', 'ejs');
+
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/', (req, res) => {
   let today = new Date().getDate();
+  let day;
 
-  if (today === 6 || today === 0){
-    // 토요일6 이거나 일요일 0 일 경우
-    res.send('<h1>its weekend!</h1>');
-  } else {
-    res.sendFile(__dirname + '/index.html');
-    // 수정확인
+  switch (today) {
+    case 0:
+      day = 'Monday'      
+      break;
+    case 1:
+      day = 'Tuesday'      
+      break;
+
+    case 2:
+      day = 'Wednesday'      
+      break;
+    
+    case 3:
+      day = 'Thursday'      
+      break;
+
+    case 4:
+      day = 'Friday'      
+      break;
+
+    case 5:
+      day = 'Saturday'      
+      break;
+    
+    case 6:
+      day = 'Sunday'      
+      break;
+
+    default:
+      break;
   }
+
+  res.render('index', {kindOfDay: day})
 })
 
 app.listen(3000, () => {
