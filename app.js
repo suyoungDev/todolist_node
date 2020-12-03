@@ -3,48 +3,35 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
+let items =[];
+
 app.set('view engine', 'ejs');
 
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.get('/', (req, res) => {
-  let today = new Date().getDate();
-  let day;
+  let today = new Date();
+  const options = { 
+    month: 'long', 
+    day:'numeric',
+    weekday: 'short', 
+  };
 
-  switch (today) {
-    case 0:
-      day = 'Monday'      
-      break;
-    case 1:
-      day = 'Tuesday'      
-      break;
+  let todayDetail = today.toLocaleDateString('ko-KR', options)
 
-    case 2:
-      day = 'Wednesday'      
-      break;
-    
-    case 3:
-      day = 'Thursday'      
-      break;
+  res.render('index', {kindOfDay: todayDetail, newListItem: items})
+  // index.ejs 에서 변수 kindOfDay 변경하여 렌더
+  // res.sendFile과 비슷하지만 좀 다름!
+  // index.ejs의 html과 비슷한 파일양식이지만 암튼 그안의 데이터를 변경가능함
+})
 
-    case 4:
-      day = 'Friday'      
-      break;
+app.post('/', (req, res) => {
+  let item = req.body.newItem;
+  items.push(item);
 
-    case 5:
-      day = 'Saturday'      
-      break;
-    
-    case 6:
-      day = 'Sunday'      
-      break;
-
-    default:
-      break;
-  }
-
-  res.render('index', {kindOfDay: day})
+  res.redirect('/');
+  // 이거 있어야 브라우저 refresh 안해도 자동 refresh됨
 })
 
 app.listen(3000, () => {

@@ -8,8 +8,20 @@
 </head>
 
 <body>
-  <h1>It's a <%= kindOfDay %> !</h1>
-  <p>Why are you not working!</p>
+  <h1><%= kindOfDay %></h1>
+  <p>일해라 일!</p>
+
+  <ul>
+    <li>buy food</li>
+    <li>cook food</li>
+    <li>eat food</li>
+    <li><%= newListItem %></li>
+  </ul>
+
+  <form action="/" method="post">
+    <input type="text" name="newItem">
+    <button type="submit" name='button'>추가</button>
+  </form>
 </body>
 
 </html>
