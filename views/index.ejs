@@ -12,10 +12,11 @@
   <p>일해라 일!</p>
 
   <ul>
-    <li>buy food</li>
-    <li>cook food</li>
-    <li>eat food</li>
-    <li><%= newListItem %></li>
+
+    <% for (let i = 0; i < newListItems.length ; i++){ %>
+        <li><%= newListItems[i] %></li>
+    <% } %>
+
   </ul>
 
   <form action="/" method="post">

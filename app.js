@@ -20,7 +20,7 @@ app.get('/', (req, res) => {
 
   let todayDetail = today.toLocaleDateString('ko-KR', options)
 
-  res.render('index', {kindOfDay: todayDetail, newListItem: items})
+  res.render('index', {kindOfDay: todayDetail, newListItems: items})
   // index.ejs 에서 변수 kindOfDay 변경하여 렌더
   // res.sendFile과 비슷하지만 좀 다름!
   // index.ejs의 html과 비슷한 파일양식이지만 암튼 그안의 데이터를 변경가능함
