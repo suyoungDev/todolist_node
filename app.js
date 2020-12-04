@@ -29,10 +29,14 @@ app.get('/', (req, res) => {
 
 app.post('/', (req, res) => {
   let item = req.body.newItem;
-  items.push(item);
 
-  res.redirect('/');
-  // 이거 있어야 브라우저 refresh 안해도 자동 refresh됨
+  if (req.body.list === 'Work'){
+    workItems.push(item);
+    res.redirect('/work');   
+  } else {
+    items.push(item);
+    res.redirect('/');
+  }
 });
 
 
@@ -43,9 +47,16 @@ app.get('/work', (req, res)=>{
 
 app.post('/work', (req, res)=>{
   let item = req.body.newItem;
-  workItems.push(item);
-  res.redirect('/work');
+
+  if (req.body.list === 'Work'){
+    workItems.push(item);
+    res.redirect('/work');    
+  } else {
+    items.push(item);
+    res.redirect('/');
+  }
 });
+
 
 app.listen(3000, () => {
   console.log('server started on port 3000');
