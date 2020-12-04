@@ -5,24 +5,34 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>To Do list -v1</title>
+  <link rel="stylesheet" href="/css/styles.css">
 </head>
 
 <body>
-  <h1><%= kindOfDay %></h1>
-  <p>일해라 일!</p>
-
-  <ul>
-
+  <div class="box" id='heading'>
+    <h1><%= listTitle %></h1>   
+  </div>
+  
+  <div class="box">
     <% for (let i = 0; i < newListItems.length ; i++){ %>
-        <li><%= newListItems[i] %></li>
+    <div class="item">
+     
+      <input type="checkbox" name="" id="">
+      <p>
+        <%= newListItems[i] %>
+      </p>
+     
+    </div>
     <% } %>
 
-  </ul>
+    <form class='item' action="/" method="post">
+      <input type="text" name="newItem" placeholder="what is your plan?" autocomplete="off">
+      <button type="submit" name='button'>+</button>
+    </form>
+  </div>
 
-  <form action="/" method="post">
-    <input type="text" name="newItem">
-    <button type="submit" name='button'>추가</button>
-  </form>
+
+
 </body>
 
 </html>
