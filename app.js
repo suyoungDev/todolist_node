@@ -33,12 +33,19 @@ const item3 = new Item({
   name: '👈hit this button to erase an item'
 });
 
-const defaultItem = [item1, item2, item3];
+const defaultItems = [item1, item2, item3];
+
+const listSchema = new mongoose.Schema({
+  name: String,
+  items: [itemSchema]
+});
+
+const List = mongoose.model('List', listSchema);
 
 
 app.get('/', (req, res) => {
 
-  Item.find((err, result) => {
+  Item.find({}, (err, result) => {
     if (result.length === 0){
       Item.insertMany(defaultItem, (err) => err ? console.log(err) : console.log('default items is pretty saved'))
       res.redirect('/');
@@ -48,7 +55,6 @@ app.get('/', (req, res) => {
   });
 
 });
-
 
 app.post('/', (req, res) => {
   const itemName = req.body.newItem;
@@ -62,6 +68,7 @@ app.post('/', (req, res) => {
   res.redirect('/');
 });
 
+
 app.post('/delete', (req, res) => {
   const itemId = req.body.check;
 
@@ -72,22 +79,31 @@ app.post('/delete', (req, res) => {
 })
 
 
+app.get('/:customListName', (req, res) => {
+  const customListName = req.params.customListName;
 
-app.get('/work', (req, res)=>{
-  res.render('index', {listTitle: 'Work List', newListItems: workItems})
+  List.findOne({name: customListName}, 
+    function(err, foundList){
+      if (!err){
+        if (!foundList){
+          // create a new list
+          const list = new List({
+            name: customListName,
+            items: defaultItems
+          });
+          
+          list.save();
+          res.redirect('/'+customListName);
+          console.log(foundList);
+
+        } else {
+          res.render('index', 
+            {listTitle: foundList.name, newListItems: foundList.items})
+        }
+      }
+    })
 });
 
-app.post('/work', (req, res)=>{
-  let item = req.body.newItem;
-
-  if (req.body.list === 'Work'){
-    workItems.push(item);
-    res.redirect('/work');    
-  } else {
-    items.push(item);
-    res.redirect('/');
-  }
-});
 
 
 app.get('/about', (req, res) => {
