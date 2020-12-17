@@ -58,9 +58,18 @@ app.post('/', (req, res) => {
   });
 
   itemAdded.save();
-  
+
   res.redirect('/');
 });
+
+app.post('/delete', (req, res) => {
+  const itemId = req.body.check;
+
+  Item.findByIdAndRemove(itemId, 
+    err => err ? console.log(err) : console.log('deleted'))
+  
+  res.redirect('/');
+})
 
 
 
