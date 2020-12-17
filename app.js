@@ -12,11 +12,18 @@ app.use(bodyParser.urlencoded({extended: true}));
 mongoose.set('useUnifiedTopology', true );
 mongoose.set('useNewUrlParser', true );
 
-mongoose.connect('mongodb://localhost:27017/fruitsDB');
+mongoose.connect('mongodb://localhost:27017/todolistDB');
 
 
 let items =[];
 let workItems = [];
+
+
+const itemSchema = new mongoose.Schema({
+  name: String
+});
+
+const Item = mongoose.model('Item', itemSchema);
 
 
 app.get('/', (req, res) => {
