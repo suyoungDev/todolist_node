@@ -1,15 +1,23 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const mongoose = require('mongoose');
 
 const app = express();
-
-let items =[];
-let workItems = [];
 
 app.set('view engine', 'ejs');
 
 app.use(express.static('public'))
 app.use(bodyParser.urlencoded({extended: true}));
+
+mongoose.set('useUnifiedTopology', true );
+mongoose.set('useNewUrlParser', true );
+
+mongoose.connect('mongodb://localhost:27017/fruitsDB');
+
+
+let items =[];
+let workItems = [];
+
 
 app.get('/', (req, res) => {
   let today = new Date();
