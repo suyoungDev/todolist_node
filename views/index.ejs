@@ -6,7 +6,7 @@
   </div>
   
   <div class="box">
-    <% newListItems.forEach( (item) => { %>
+    <% newListItems.forEach(item => { %>
       <form action="/delete" method="post">
         <div class="item">  
           <input 
@@ -16,6 +16,7 @@
             onchange="this.form.submit()">
           <p><%= item.name %></p>
         </div>
+        <input type='hidden' name='listName' value='<%= listTitle %>'></input>
       </form>
     <% }) %>
 

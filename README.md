@@ -1,2 +1,3 @@
-﻿# todolist_node
-Node, EJS, Express
+﻿# todolist
+
+using Node, EJS, Express

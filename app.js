@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const _ = require('lodash');
 
 const app = express();
 
@@ -33,7 +34,7 @@ const item3 = new Item({
   name: '👈hit this button to erase an item'
 });
 
-const defaultItems = [item1, item2, item3];
+const defaultItem = [item1, item2, item3];
 
 const listSchema = new mongoose.Schema({
   name: String,
@@ -78,12 +79,18 @@ app.post('/', (req, res) => {
 
 
 app.post('/delete', (req, res) => {
-  const itemId = req.body.check;
+  const checkedItemId = req.body.check;
+  const listName = req.body.listName;
 
-  Item.findByIdAndRemove(itemId, 
-    err => err ? console.log(err) : console.log('deleted'))
-  
-  res.redirect('/');
+  if (listName === 'Today'){
+    Item.findByIdAndRemove(checkedItemId, 
+      err => err ? console.log(err) : console.log('deleted'));
+    res.redirect('/');
+  } else {
+    List.findOneAndUpdate({name: listName}, 
+      {$pull: {items: {_id: checkedItemId}}}, 
+      (err, foundList) => err ? console.log(err) : res.redirect('/' + listName))
+  }
 })
 
 
@@ -97,7 +104,7 @@ app.get('/:customListName', (req, res) => {
           // create a new list
           const list = new List({
             name: customListName,
-            items: defaultItems
+            items: defaultItem
           });
           
           list.save();
