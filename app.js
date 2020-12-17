@@ -15,31 +15,30 @@ mongoose.set('useNewUrlParser', true );
 mongoose.connect('mongodb://localhost:27017/todolistDB');
 
 
-let items =[];
-let workItems = [];
-
-
 const itemSchema = new mongoose.Schema({
   name: String
 });
 
 const Item = mongoose.model('Item', itemSchema);
 
+const item1 = new Item({
+  name: 'welcome to my todo List'
+});
+
+const item2 = new Item({
+  name: 'hit + button to add a new item'
+});
+
+const item3 = new Item({
+  name: '👈hit this button to erase an item'
+});
+
+const defaultItem = [item1, item2, item3];
+
+Item.insertMany(defaultItem, (err) => err ? console.log(err) : console.log('default items is pretty saved'))
 
 app.get('/', (req, res) => {
-  let today = new Date();
-  const options = { 
-    month: 'long', 
-    day:'numeric',
-    weekday: 'short', 
-  };
-
-  let todayDetail = today.toLocaleDateString('ko-KR', options)
-
-  res.render('index', {listTitle: todayDetail, newListItems: items})
-  // index.ejs 에서 변수 kindOfDay 변경하여 렌더
-  // res.sendFile과 비슷하지만 좀 다름!
-  // index.ejs의 html과 비슷한 파일양식이지만 암튼 그안의 데이터를 변경가능함
+  res.render('list', {listTitle: 'Today', newListItems: items})
 });
 
 app.post('/', (req, res) => {
