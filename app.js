@@ -35,13 +35,16 @@ const item3 = new Item({
 
 const defaultItem = [item1, item2, item3];
 
-// Item.insertMany(defaultItem, (err) => err ? console.log(err) : console.log('default items is pretty saved'))
 
 app.get('/', (req, res) => {
 
   Item.find((err, result) => {
-    err ? console.log(err) : 
-    res.render('index', {listTitle: 'Today', newListItems: result})
+    if (result.length === 0){
+      Item.insertMany(defaultItem, (err) => err ? console.log(err) : console.log('default items is pretty saved'))
+      res.redirect('/');
+    } else {
+      res.render('index', {listTitle: 'Today', newListItems: result})
+    }
   });
 
 });
